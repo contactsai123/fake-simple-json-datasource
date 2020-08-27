@@ -27,9 +27,9 @@ for (var i = timeserie.length -1; i >= 0; i--) {
 	console.log("inner for " + y);
 	console.log("current time " + now);
 	console.log("decreaser time " + decreaser);
-    series.datapoints[y][1] = Math.round((now - decreaser) /1000) * 1000;
+    series.datapoints[y][1] = Math.round((now + decreaser) /1000) * 1000;
 	console.log("time now - decreaser " + series.datapoints[y][1])
-    decreaser += 50000;
+    decreaser += 1000000;
   }
 }
 
@@ -61,7 +61,7 @@ var decreaser = 0;
 for (var i = 0;i < annotations.length; i++) {
   var anon = annotations[i];
 
-  anon.time = (now - decreaser);
+  anon.time = (now + decreaser);
   decreaser += 1000000
 }
 
