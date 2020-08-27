@@ -1,20 +1,34 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var _ = require('lodash');
-var app = express();
+var express = require('express'); //require --> import //Express --> web application framework 
+var bodyParser = require('body-parser'); //Node. js body parsing middleware. Parsing the incoming request bodies in a middleware before you handle it
+var _ = require('lodash'); //utility functions for simplifying common programming tasks such as determining type as well as simplifying math operations.
+var app = express(); //used to create application.
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //returns middleware that only parses json, use to form data to be available in req.body.
 
-var timeserie = require('./series');
-var countryTimeseries = require('./country-series');
+var timeserie = require('./series'); //require --> import
+var countryTimeseries = require('./country-series'); //require --> import
 
 var now = Date.now();
 
+console.log(timeserie.length);
+console.log(timeserie);
+console.log(timeserie[0]);
+console.log("outer loop runs for " + timeserie.length);
+
 for (var i = timeserie.length -1; i >= 0; i--) {
   var series = timeserie[i];
+  console.log("outer for " + i)
+  console.log(series)
   var decreaser = 0;
+  console.log(series.datapoints.length);
+  
+  console.log("inner loop runs for " + series.datapoints.length);
   for (var y = series.datapoints.length -1; y >= 0; y--) {
+	console.log("inner for " + y);
+	console.log("current time " + now);
+	console.log("decreaser time " + decreaser);
     series.datapoints[y][1] = Math.round((now - decreaser) /1000) * 1000;
+	console.log("time now - decreaser " + series.datapoints[y][1])
     decreaser += 50000;
   }
 }
@@ -58,7 +72,8 @@ var table =
       [ 1234567, 'SE', 123 ],
       [ 1234567, 'DE', 231 ],
       [ 1234567, 'US', 321 ],
-    ]
+    ],
+	type: "table"
   };
   
 function setCORSHeaders(res) {
@@ -73,7 +88,7 @@ var decreaser = 0;
 for (var i = 0;i < table.rows.length; i++) {
   var anon = table.rows[i];
 
-  anon[0] = (now - decreaser);
+  anon[0] = (now + decreaser);
   decreaser += 1000000
 }
 
